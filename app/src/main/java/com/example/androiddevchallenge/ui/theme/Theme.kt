@@ -56,11 +56,11 @@ private val DarkImages = Images(
 )
 
 private val LightDomainColors = DomainColors(
-    loginButtonText = pink900
+    loginButtonText = pink900,
 )
 
 private val DarkDomainColors = DomainColors(
-    loginButtonText = Color.White
+    loginButtonText = Color.White,
 )
 
 @Composable

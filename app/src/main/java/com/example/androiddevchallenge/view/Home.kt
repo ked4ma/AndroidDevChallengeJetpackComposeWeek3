@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -32,9 +33,11 @@ fun Home() {
     val (selectedTab, setSelectedTab) = remember { mutableStateOf(Tabs.HOME) }
     val tabs = Tabs.values()
     Scaffold(
+        backgroundColor = Color.Transparent,
         bottomBar = {
             BottomNavigation(
-                modifier = Modifier.navigationBarsHeight(additional = 56.dp)
+                modifier = Modifier.navigationBarsHeight(additional = 56.dp),
+                backgroundColor = MyTheme.colors.primary
             ) {
                 tabs.forEach { tab ->
                     BottomNavigationItem(
