@@ -22,8 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.core.view.WindowCompat
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.util.ProvideImageLoader
-import com.example.androiddevchallenge.view.Home
-import com.example.androiddevchallenge.view.Welcome
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
 class MainActivity : AppCompatActivity() {
