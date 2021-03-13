@@ -18,17 +18,11 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.background
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import com.example.androiddevchallenge.ui.theme.MyTheme
-import com.example.androiddevchallenge.view.Login
-import com.example.androiddevchallenge.view.Welcome
+import com.example.androiddevchallenge.util.ProvideImageLoader
+import com.example.androiddevchallenge.view.Home
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +32,14 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            MyTheme {
+            ProvideWindowInsets {
+                ProvideImageLoader {
+                    MyTheme {
 //                    Welcome()
-                    Login()
+//                    Login()
+                        Home()
+                    }
+                }
             }
         }
     }

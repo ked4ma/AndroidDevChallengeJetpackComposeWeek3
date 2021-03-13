@@ -15,8 +15,11 @@
  */
 package com.example.androiddevchallenge.ui.theme
 
+import androidx.compose.material.Colors
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 
 val white150 = Color(0x26FFFFFF)
 val white850 = Color(0xD9FFFFFF)
@@ -35,4 +38,9 @@ data class DomainColors(
 
 internal val LocalColors = staticCompositionLocalOf<DomainColors> {
     error("No LocalImages specified")
+}
+
+@Composable
+fun Colors.compositedOnSurface(alpha: Float): Color {
+    return onSurface.copy(alpha = alpha).compositeOver(surface)
 }

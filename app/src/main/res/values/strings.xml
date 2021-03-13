@@ -16,4 +16,12 @@
     <string name="email_address">Email Address</string>
     <string name="password">Password (8+ characters)</string>
     <string name="notice">By clicking below, you agree to our Terms of Use and consent to our Privacy Policy</string>
+    <string name="search">Search</string>
+    <string name="browse_themes">Browse themes</string>
+    <string name="home_garden">Design your home Garden</string>
+    <string name="description">This is a description</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="profile">Profile</string>
+    <string name="cart">Cart</string>
 </resources>

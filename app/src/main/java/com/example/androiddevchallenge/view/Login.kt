@@ -2,7 +2,6 @@ package com.example.androiddevchallenge.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -108,7 +107,7 @@ fun Login() {
             modifier = Modifier
                 .height(48.dp)
                 .fillMaxWidth(),
-            shape = RoundedCornerShape(24.dp),
+            shape = MyTheme.shapes.medium,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MyTheme.colors.secondary,
                 contentColor = MyTheme.colors.onSecondary
