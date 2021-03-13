@@ -8,9 +8,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -65,6 +63,7 @@ fun Home() {
 
 @Composable
 fun HomeView(modifier: Modifier = Modifier) {
+    var search by remember { mutableStateOf("") }
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -73,7 +72,7 @@ fun HomeView(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(top = ((40 - 8).dp))
                 .padding(horizontal = 16.dp),
-            value = "",
+            value = search,
             label = {
                 Text(
                     text = stringResource(R.string.search),
@@ -81,6 +80,7 @@ fun HomeView(modifier: Modifier = Modifier) {
                     color = MyTheme.colors.onPrimary,
                 )
             },
+            textStyle = MyTheme.typography.body1,
             singleLine = true,
             maxLines = 1,
             colors = TextFieldDefaults.outlinedTextFieldColors(),
@@ -91,7 +91,7 @@ fun HomeView(modifier: Modifier = Modifier) {
                     contentDescription = null
                 )
             },
-            onValueChange = { /*TODO*/ },
+            onValueChange = { search = it },
         )
         BrowseThemes()
         GardenItems()
@@ -173,7 +173,7 @@ private fun ColumnScope.GardenItems() {
         color = MyTheme.colors.onPrimary,
         style = MyTheme.typography.h1,
     )
-    val items = remember { GardenItemData.all }
+    var items by remember { mutableStateOf(GardenItemData.all) }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -181,7 +181,12 @@ private fun ColumnScope.GardenItems() {
     ) {
         items.forEachIndexed { index, item ->
             item {
-                GardenItem(item)
+                GardenItem(item) {
+                    items = items.mapIndexed { i, v ->
+                        println(it)
+                        if (index == i) v.copy(checked = it) else v
+                    }
+                }
                 if (index < items.lastIndex) {
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -191,7 +196,7 @@ private fun ColumnScope.GardenItems() {
 }
 
 @Composable
-private fun GardenItem(item: GardenItemData) {
+private fun GardenItem(item: GardenItemData, onChecked: (Boolean) -> Unit = {}) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -244,8 +249,8 @@ private fun GardenItem(item: GardenItemData) {
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)
                 },
-            checked = false,
-            onCheckedChange = { /*TODO*/ }
+            checked = item.checked,
+            onCheckedChange = { onChecked(it) }
         )
         Divider(
             modifier = Modifier
