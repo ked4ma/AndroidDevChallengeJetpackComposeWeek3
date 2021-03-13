@@ -47,6 +47,8 @@ private class Actions(navController: NavHostController) {
     }
 
     val goHome: () -> Unit = {
-        navController.navigate(Destinations.HOME)
+        navController.navigate(Destinations.HOME) {
+            popUpTo(0) { inclusive = false }
+        }
     }
 }

@@ -33,6 +33,7 @@ fun Login(goHome: () -> Unit = {}) {
         )
         CompositionLocalProvider(
             LocalTextStyle provides MyTheme.typography.body1,
+            LocalContentColor provides MyTheme.colors.onPrimary
         ) {
             OutlinedTextField(
                 modifier = Modifier

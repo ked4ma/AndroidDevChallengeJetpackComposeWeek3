@@ -2,6 +2,8 @@ package com.example.androiddevchallenge.view
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -9,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -16,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.androiddevchallenge.R
@@ -83,7 +87,9 @@ fun HomeView(modifier: Modifier = Modifier) {
             textStyle = MyTheme.typography.body1,
             singleLine = true,
             maxLines = 1,
-            colors = TextFieldDefaults.outlinedTextFieldColors(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = MyTheme.colors.onPrimary
+            ),
             leadingIcon = {
                 Icon(
                     modifier = Modifier.size(18.dp),
@@ -165,14 +171,25 @@ private fun BrowseThemeItem(themeItem: ThemeItemData) {
 
 @Composable
 private fun ColumnScope.GardenItems() {
-    Text(
-        modifier = Modifier
-            .paddingFromBaseline(top = 32.dp)
-            .padding(horizontal = 16.dp),
-        text = stringResource(R.string.home_garden),
-        color = MyTheme.colors.onPrimary,
-        style = MyTheme.typography.h1,
-    )
+    Row(modifier = Modifier.padding(horizontal = 16.dp)) {
+        Text(
+            modifier = Modifier
+                .paddingFromBaseline(top = 32.dp)
+                .weight(1F),
+            text = stringResource(R.string.home_garden),
+            color = MyTheme.colors.onPrimary,
+            style = MyTheme.typography.h1,
+        )
+        Icon(
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .size(24.dp)
+                .clickable { /* TODO */ },
+            imageVector = Icons.Default.FilterList,
+            contentDescription = null,
+            tint = MyTheme.colors.onPrimary
+        )
+    }
     var items by remember { mutableStateOf(GardenItemData.all) }
     LazyColumn(
         modifier = Modifier
@@ -183,8 +200,7 @@ private fun ColumnScope.GardenItems() {
             item {
                 GardenItem(item) {
                     items = items.mapIndexed { i, v ->
-                        println(it)
-                        if (index == i) v.copy(checked = it) else v
+                        if (index == i) v.copy(checked = !v.checked) else v
                     }
                 }
                 if (index < items.lastIndex) {
@@ -196,7 +212,7 @@ private fun ColumnScope.GardenItems() {
 }
 
 @Composable
-private fun GardenItem(item: GardenItemData, onChecked: (Boolean) -> Unit = {}) {
+private fun GardenItem(item: GardenItemData, onChecked: () -> Unit = {}) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -241,17 +257,35 @@ private fun GardenItem(item: GardenItemData, onChecked: (Boolean) -> Unit = {}) 
             style = MyTheme.typography.body1,
             overflow = TextOverflow.Ellipsis
         )
-        Checkbox(
+        val check2 = createRef()
+        Box(
             modifier = Modifier
                 .padding(top = 16.dp)
                 .size(24.dp)
+                .let {
+                    if (item.checked) {
+                        it.background(MyTheme.colors.secondary, MyTheme.shapes.small)
+                    } else {
+                        it.border(1.dp, MyTheme.colors.onPrimary, MyTheme.shapes.small)
+                    }
+                }
                 .constrainAs(check) {
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)
-                },
-            checked = item.checked,
-            onCheckedChange = { onChecked(it) }
-        )
+                }
+                .clickable { onChecked() },
+        ) {
+            if (item.checked) {
+                Icon(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(16.dp),
+                    imageVector = Icons.Default.Done,
+                    contentDescription = null,
+                    tint = MyTheme.colors.onSecondary
+                )
+            }
+        }
         Divider(
             modifier = Modifier
                 .constrainAs(divider) {
