@@ -16,8 +16,8 @@ import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 @Composable
-fun Welcome() {
-    Box {
+fun Welcome(goLogin: () -> Unit = {}) {
+    Box(modifier = Modifier.background(MyTheme.colors.primary)) {
         Image(
             modifier = Modifier.fillMaxSize(),
             painter = painterResource(id = MyTheme.images.welcomeBg),
@@ -72,14 +72,15 @@ fun Welcome() {
             }
             TextButton(
                 modifier = Modifier
+                    .padding(top = 8.dp)
                     .height(48.dp)
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
                     .padding(horizontal = 16.dp),
+                shape = MyTheme.shapes.medium,
                 colors = ButtonDefaults.textButtonColors(
                     contentColor = MyTheme.domainColors.loginButtonText
                 ),
-                onClick = { /*TODO*/ }
+                onClick = { goLogin() }
             ) {
                 Text(text = stringResource(R.string.login))
             }

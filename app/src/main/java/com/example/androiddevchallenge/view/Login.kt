@@ -3,15 +3,14 @@ package com.example.androiddevchallenge.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,7 +19,9 @@ import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 @Composable
-fun Login() {
+fun Login(goHome: () -> Unit = {}) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(
             modifier = Modifier
@@ -37,7 +38,7 @@ fun Login() {
                 modifier = Modifier
                     .height((56 + 8).dp)
                     .fillMaxWidth(),
-                value = "",
+                value = email,
                 label = {
                     Text(
                         text = stringResource(R.string.email_address),
@@ -48,13 +49,13 @@ fun Login() {
                 singleLine = true,
                 maxLines = 1,
                 colors = TextFieldDefaults.outlinedTextFieldColors(),
-                onValueChange = { /*TODO*/ },
+                onValueChange = { email = it },
             )
             OutlinedTextField(
                 modifier = Modifier
                     .height((56 + 8).dp)
                     .fillMaxWidth(),
-                value = "",
+                value = password,
                 label = {
                     Text(
                         text = stringResource(R.string.password),
@@ -64,8 +65,9 @@ fun Login() {
                 },
                 singleLine = true,
                 maxLines = 1,
+                visualTransformation = PasswordVisualTransformation(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(),
-                onValueChange = { /*TODO*/ },
+                onValueChange = { password = it },
             )
         }
         val context = LocalContext.current
@@ -112,7 +114,11 @@ fun Login() {
                 backgroundColor = MyTheme.colors.secondary,
                 contentColor = MyTheme.colors.onSecondary
             ),
-            onClick = { /*TODO*/ }
+            enabled = email.isNotEmpty() && password.isNotEmpty() && password.length >= 8,
+            onClick = {
+                // TODO handle email and password
+                goHome()
+            }
         ) {
             Text(
                 text = stringResource(R.string.login),

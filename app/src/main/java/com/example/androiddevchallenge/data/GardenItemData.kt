@@ -1,11 +1,12 @@
 package com.example.androiddevchallenge.data
 
-data class GardenItemData(val name: String, val thumbnail: String) {
+data class GardenItemData(val name: String, val thumbnail: String, val checked: Boolean = false) {
     companion object {
         val all = listOf(
             GardenItemData(
                 "Monstera",
-                "https://images.pexels.com/photos/3097770/pexels-photo-3097770.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+                "https://images.pexels.com/photos/3097770/pexels-photo-3097770.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+                true
             ),
             GardenItemData(
                 "Aglaonema",

@@ -18,10 +18,12 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
 import androidx.core.view.WindowCompat
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.util.ProvideImageLoader
 import com.example.androiddevchallenge.view.Home
+import com.example.androiddevchallenge.view.Welcome
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
 class MainActivity : AppCompatActivity() {
@@ -32,15 +34,18 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            ProvideWindowInsets {
-                ProvideImageLoader {
-                    MyTheme {
-//                    Welcome()
-//                    Login()
-                        Home()
-                    }
-                }
+            MyTheme {
+                App()
             }
+        }
+    }
+}
+
+@Composable
+private fun App() {
+    ProvideWindowInsets {
+        ProvideImageLoader {
+            NavGraph()
         }
     }
 }
