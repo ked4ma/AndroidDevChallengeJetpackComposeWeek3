@@ -16,30 +16,55 @@
 package com.example.androiddevchallenge.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Typography
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
+import com.example.androiddevchallenge.R
 
 private val DarkColorPalette = darkColors(
-    primary = purple200,
-    primaryVariant = purple700,
-    secondary = teal200
+    primary = green900,
+    secondary = green300,
+    background = gray,
+    surface = white150,
+    onPrimary = Color.White,
+    onSecondary = gray,
+    onBackground = Color.White,
+    onSurface = white850
 )
 
 private val LightColorPalette = lightColors(
-    primary = purple500,
-    primaryVariant = purple700,
-    secondary = teal200
-
-        /* Other default colors to override
+    primary = pink100,
+    secondary = pink900,
     background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    surface = white850,
+    onPrimary = gray,
+    onSecondary = Color.White,
+    onBackground = gray,
+    onSurface = gray
+)
+
+private val LightImages = Images(
+    logo = R.drawable.ic_light_logo,
+    welcomeIllos = R.drawable.ic_light_welcome_illos,
+    welcomeBg = R.drawable.ic_light_welcome_bg
+)
+private val DarkImages = Images(
+    logo = R.drawable.ic_dark_logo,
+    welcomeIllos = R.drawable.ic_dark_welcome_illos,
+    welcomeBg = R.drawable.ic_dark_welcome_bg
+)
+
+private val LightDomainColors = DomainColors(
+    loginButtonText = pink900
+)
+
+private val DarkDomainColors = DomainColors(
+    loginButtonText = Color.White
 )
 
 @Composable
@@ -49,11 +74,39 @@ fun MyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() (
     } else {
         LightColorPalette
     }
+    val images = if (darkTheme) DarkImages else LightImages
+    val domainColors = if (darkTheme) DarkDomainColors else LightDomainColors
+    CompositionLocalProvider(
+        LocalImages provides images,
+        LocalColors provides domainColors
+    ) {
+        MaterialTheme(
+            colors = colors,
+            typography = typography,
+            shapes = shapes,
+            content = content
+        )
+    }
+}
 
-    MaterialTheme(
-        colors = colors,
-        typography = typography,
-        shapes = shapes,
-        content = content
-    )
+object MyTheme {
+    val colors: Colors
+        @Composable
+        get() = MaterialTheme.colors
+
+    val typography: Typography
+        @Composable
+        get() = MaterialTheme.typography
+
+    val elevations: Elevations
+        @Composable
+        get() = LocalElevations.current
+
+    val images: Images
+        @Composable
+        get() = LocalImages.current
+
+    val domainColors: DomainColors
+        @Composable
+        get() = LocalColors.current
 }
